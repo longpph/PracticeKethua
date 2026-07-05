@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Shape {
     private String color = "green";
     private boolean filled = true;
@@ -42,13 +44,13 @@ class Circle extends Shape {
         this.radius = radius;
     }
 
-    public Circle(double radius, String color, boolean filled) {
+    public Circle (double radius, String color, boolean filled) {
         super(color, filled);
         this.radius = radius;
     }
 
     public double getRadius() {
-        return radius;
+        return this.radius;
     }
 
     public void setRadius(double radius) {
@@ -124,92 +126,86 @@ class Square extends Rectangle {
     public Square(double side) {
         super(side, side);
     }
+
     
-    public Square(double side, String color, boolean filled) {
-        super(side, side, color, filled);
+}
+
+class ComparableCircle extends Circle
+        implements Comparable<ComparableCircle> {
+
+    public ComparableCircle() {
     }
 
-    public double getSide() {
-        return getWidth();
+    public ComparableCircle(double radius) {
+        super(radius);
     }
 
-    public void setSide(double side) {
-        super.setWidth(side);
-        super.setLength(side);
-    }
-
-    @Override
-    public void setWidth(double width) {
-        setSide(width);
-    }
-
-    @Override
-    public void setLength(double length) {
-        setSide(length);
+    public ComparableCircle(double radius, String color, boolean filled) {
+        super(radius, color, filled);
     }
 
     @Override
-    public String toString() {
-        return "A Square with side=" + getSide() + ", which is a subclass of " + super.toString();
+    public int compareTo(ComparableCircle o) {
+        if (getRadius() > o.getRadius()) return 1;
+        else if (getRadius() < o.getRadius()) return -1;
+        else return 0;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-
-        System.out.println("----- TEST SHAPE -----");
-        Shape shape1 = new Shape();
-        System.out.println(shape1);
+    public static void main (String[] args) {
+        System.out.println("---Test Shape---");
+        Shape shape = new Shape();
+        System.out.println(shape);
 
         Shape shape2 = new Shape("red", false);
         System.out.println(shape2);
-        System.out.println();
 
+        System.out.println("---Test Circle---");
+        Circle circle = new Circle();
+        System.out.println(circle);
 
-        System.out.println("----- TEST CIRCLE -----");
-        Circle circle1 = new Circle();
-        System.out.println(circle1);
-
-        Circle circle2 = new Circle(3.5, "indigo", false);
+        Circle circle2 = new Circle(4.0);
         System.out.println(circle2);
         System.out.printf("Diện tích Circle: %.2f\n", circle2.getArea());
         System.out.printf("Chu vi Circle: %.2f\n", circle2.getPerimeter());
         System.out.println();
 
-
-        System.out.println("----- TEST RECTANGLE -----");
-        Rectangle rect1 = new Rectangle();
-        System.out.println(rect1);
-
-        Rectangle rect2 = new Rectangle(2.5, 4.0, "yellow", true);
-        System.out.println(rect2);
-        System.out.printf("Diện tích Rectangle: %.2f\n", rect2.getArea());
-        System.out.printf("Chu vi Rectangle: %.2f\n", rect2.getPerimeter());
+        Circle circle3 = new Circle(3.5, "yellow", false);
+        System.out.println(circle3);
+        System.out.printf("Diện tích Circle: %.2f\n", circle3.getArea());
+        System.out.printf("Chu vi Circle: %.2f\n", circle3.getPerimeter());
         System.out.println();
 
-        System.out.println("----- TEST SQUARE -----");
-        Square square1 = new Square();
-        System.out.println(square1);
+        System.out.println("---Test Rectangle---");
+        Rectangle rectangle1 = new Rectangle();
+        System.out.println(rectangle1);
 
-        Square square2 = new Square(5.0, "pink", true);
-        System.out.println(square2);
-        System.out.printf("Diện tích Square: %.2f\n", square2.getArea());
-        System.out.printf("Chu vi Square: %.2f\n", square2.getPerimeter());
-        System.out.println();
+        Rectangle rectangle2 = new Rectangle(2.0, 2.5);
+        System.out.println(rectangle2);
+        System.out.printf("Diện tích Rectangle: %.2f\n", rectangle2.getArea());
+        System.out.printf("Chu vi Rectangle: %.2f\n", rectangle2.getPerimeter());
 
+        Rectangle rectangle3 = new Rectangle(4.0, 4.5, "yellow", false);
+        System.out.println(rectangle3);
+        System.out.printf("Diện tích Rectangle: %.2f\n", rectangle3.getArea());
+        System.out.printf("Chu vi Rectangle: %.2f\n", rectangle3.getPerimeter());
+    
+        ComparableCircle[] circles = new ComparableCircle[3];
+        circles[0] = new ComparableCircle(3.6);
+        circles[1] = new ComparableCircle();
+        circles[2] = new ComparableCircle(3.5, "indigo", false);
 
-        System.out.println("----- TEST THAY ĐỔI KÍCH THƯỚC SQUARE -----");
-        System.out.println("Trạng thái ban đầu: " + square2);
-        
-        System.out.println("-> Thực hiện: square2.setWidth(8.0);");
-        square2.setWidth(8.0);
-        System.out.println("Trạng thái sau khi setWidth: " + square2);
-        System.out.printf("Diện tích mới: %.2f (Kỳ vọng: 8 * 8 = 64)\n", square2.getArea());
-        
-        System.out.println();
-        System.out.println("-> Thực hiện: square2.setSide(10.0);");
-        square2.setSide(10.0);
-        System.out.println("Trạng thái sau khi setSide: " + square2);
-        System.out.printf("Diện tích mới: %.2f (Kỳ vọng: 10 * 10 = 100)\n", square2.getArea());
+        System.out.println("Pre-sorted:");
+        for (ComparableCircle circlee : circles) {
+            System.out.println(circlee);
+        }
+
+        Arrays.sort(circles);
+
+        System.out.println("After-sorted:");
+        for (ComparableCircle circlee : circles) {
+            System.out.println(circlee);
+        }
     }
 }
