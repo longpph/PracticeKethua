@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Shape {
     private String color = "green";
@@ -152,6 +153,16 @@ class ComparableCircle extends Circle
     }
 }
 
+class CircleComparator implements Comparator<Circle> {
+
+    @Override
+    public int compare(Circle c1, Circle c2) {
+        if (c1.getRadius() > c2.getRadius()) return 1;
+        else if (c1.getRadius() < c2.getRadius()) return -1;
+        else return 0;
+    }
+}
+
 class Main {
     public static void main (String[] args) {
         System.out.println("---Test Shape---");
@@ -196,16 +207,30 @@ class Main {
         circles[1] = new ComparableCircle();
         circles[2] = new ComparableCircle(3.5, "indigo", false);
 
+        // System.out.println("Pre-sorted:");
+        // for (ComparableCircle circlee : circles) {
+        //     System.out.println(circlee);
+        // }
+
+        // Arrays.sort(circles);
+
+        // System.out.println("After-sorted:");
+        // for (ComparableCircle circlee : circles) {
+        //     System.out.println(circlee);
+        // }
+
         System.out.println("Pre-sorted:");
-        for (ComparableCircle circlee : circles) {
+        for (Circle circlee : circles) {
             System.out.println(circlee);
         }
 
-        Arrays.sort(circles);
+        Comparator circleComparator = new CircleComparator();
+        Arrays.sort(circles, circleComparator);
 
         System.out.println("After-sorted:");
-        for (ComparableCircle circlee : circles) {
+        for (Circle circlee : circles) {
             System.out.println(circlee);
         }
+        
     }
 }
